@@ -56,36 +56,17 @@ Resources:
     Type: AWS::CloudFront::OriginAccessControl
     Properties:
       OriginAccessControlConfig:
-        Name: !Sub '${DomainName}-oac'
+        Name: play-bobspot-org-oac
         OriginAccessControlOriginType: s3
         SigningBehavior: always
         SigningProtocol: sigv4
-
-  # Cache Policy: No caching for HTML/dynamic content
-  NoCachePolicy:
-    Type: AWS::CloudFront::CachePolicy
-    Properties:
-      CachePolicyConfig:
-        Name: !Sub '${DomainName}-no-cache'
-        DefaultTTL: 0
-        MaxTTL: 0
-        MinTTL: 0
-        ParametersInCacheKeyAndForwardedToOrigin:
-          CookiesConfig:
-            CookieBehavior: none
-          HeadersConfig:
-            HeaderBehavior: none
-          QueryStringsConfig:
-            QueryStringBehavior: none
-          EnableAcceptEncodingGzip: true
-          EnableAcceptEncodingBrotli: true
 
   # Cache Policy: Short cache for static assets (JS/CSS with hashed filenames)
   StaticAssetsCachePolicy:
     Type: AWS::CloudFront::CachePolicy
     Properties:
       CachePolicyConfig:
-        Name: !Sub '${DomainName}-static-assets'
+        Name: play-bobspot-org-static-assets
         DefaultTTL: 86400  # 1 day - safe for hashed filenames
         MaxTTL: 31536000   # 1 year
         MinTTL: 0
@@ -126,7 +107,7 @@ Resources:
             - GET
             - HEAD
           Compress: true
-          CachePolicyId: !Ref NoCachePolicy
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad  # AWS Managed CachingDisabled policy
           OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf  # CORS-S3Origin
         # Cache static assets (Vite generates hashed filenames, so caching is safe)
         CacheBehaviors:
