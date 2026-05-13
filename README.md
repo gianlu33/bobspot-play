@@ -1,73 +1,92 @@
-# React + TypeScript + Vite
+# Bobspot Play
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend for [play.bobspot.org](https://play.bobspot.org) - a collection of games and interactive experiments.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 19** + **TypeScript**
+- **Vite** - build tool
+- **Tailwind CSS v4** - styling (via `@tailwindcss/vite` plugin)
+- **React Router v7** - routing (data router pattern)
 
-## React Compiler
+## Project Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── App.tsx                 # Router setup (createBrowserRouter)
+├── main.tsx                # Entry point
+├── components/             # Reusable components
+│   ├── layout/             # Layout components (Header, Footer, RootLayout)
+│   └── ui/                 # Generic UI components (buttons, inputs, etc.)
+├── pages/                  # Page components
+│   └── [page-name]/        # Each page has its own folder
+│       ├── PageName.tsx    # Main page component
+│       └── components/     # Page-specific components
+└── styles/
+    ├── global.css          # Global styles + Tailwind import
+    └── theme.css           # Theme variables (colors, fonts, etc.)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Component Organization
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Generic/reusable components** → `src/components/` (with subfolders like `ui/`, `layout/`)
+- **Page-specific components** → `src/pages/[page-name]/components/`
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Theming
+
+Colors and design tokens are defined in `src/styles/theme.css` using Tailwind v4's `@theme` directive.
+
+**Available theme variables:**
+
+| Category | Variables | Usage |
+|----------|-----------|-------|
+| Primary | `primary-50` to `primary-950` | Brand purple colors |
+| Accent | `accent-50` to `accent-950` | Pink highlights |
+| Surface | `surface-50` to `surface-950` | Background grays |
+| Text | `text-primary`, `text-secondary`, `text-muted` | Text colors |
+| Background | `bg-base`, `bg-card`, `bg-card-hover` | Background colors |
+| Border | `border-default`, `border-hover`, `border-dashed` | Border colors |
+
+**Usage in components:**
+```tsx
+<div className="bg-primary-500 text-text-primary border-border-default">
 ```
+
+## Adding a New Page
+
+1. Create folder: `src/pages/[page-name]/`
+2. Create main component: `src/pages/[page-name]/PageName.tsx`
+3. Add page-specific components in: `src/pages/[page-name]/components/`
+4. Register route in `src/App.tsx`:
+   ```tsx
+   import { NewPage } from './pages/new-page/NewPage'
+   
+   const router = createBrowserRouter([
+     {
+       path: '/',
+       element: <RootLayout />,
+       children: [
+         { index: true, element: <HomePage /> },
+         { path: 'new-page', element: <NewPage /> },  // Add here
+       ],
+     },
+   ])
+   ```
+
+## Commands
+
+```bash
+make install      # Install dependencies
+make dev          # Start dev server
+make build        # Production build
+make lint         # Run ESLint + TypeScript check
+make preview      # Preview production build
+make upload       # Build + deploy to S3
+make deploy-infra # Deploy AWS infrastructure
+make clean        # Remove dist/ and node_modules/
+```
+
+## Infrastructure
+
+AWS infrastructure (S3, CloudFront, Route53) is managed via CloudFormation.
+See `infrastructure/README.md` for setup instructions.

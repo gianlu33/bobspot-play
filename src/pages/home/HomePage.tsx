@@ -7,7 +7,7 @@ const games: Game[] = [
     id: 'socialengine',
     title: 'SocialEngine AI',
     description: 'Hack people, not code. Use social engineering to extract secrets from AI guardians.',
-    status: 'coming-soon',
+    status: 'available',
     tags: ['AI', 'Social Engineering', 'Puzzle'],
   },
 ]

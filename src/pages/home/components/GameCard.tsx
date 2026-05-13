@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export interface Game {
   id: string
   title: string
@@ -11,8 +13,10 @@ interface GameCardProps {
 }
 
 export function GameCard({ game }: GameCardProps) {
-  return (
-    <article className="group relative bg-bg-card backdrop-blur-sm border border-border-default rounded-2xl p-6 hover:bg-bg-card-hover hover:border-border-hover transition-all duration-300">
+  const isAvailable = game.status === 'available'
+  
+  const content = (
+    <>
       {game.status === 'coming-soon' && (
         <span className="absolute top-4 right-4 px-3 py-1 text-xs font-medium bg-primary-500/20 text-primary-300 rounded-full border border-primary-500/30">
           Coming Soon
@@ -43,6 +47,22 @@ export function GameCard({ game }: GameCardProps) {
           </span>
         ))}
       </div>
+    </>
+  )
+
+  const className = "group relative bg-bg-card backdrop-blur-sm border border-border-default rounded-2xl p-6 hover:bg-bg-card-hover hover:border-border-hover transition-all duration-300 block"
+
+  if (isAvailable) {
+    return (
+      <Link to={`/${game.id}`} className={className}>
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <article className={className}>
+      {content}
     </article>
   )
 }
