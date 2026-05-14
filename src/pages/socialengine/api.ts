@@ -1,10 +1,16 @@
 const API_URL = 'https://api.bobspot.org/socialengine'
 
+export interface LevelSettings {
+  max_message_length: number
+  max_conversation_turns: number
+}
+
 export interface LevelInfo {
   id: string
   title: string
   description: string
   hints: string[]
+  settings?: LevelSettings
 }
 
 export interface Message {
@@ -25,24 +31,9 @@ export interface ChatResponse {
   metadata: ChatMetadata
 }
 
-export interface GameConfig {
-  max_message_length: number
-  max_conversation_turns: number
-}
-
 export interface VerifySecretResponse {
   correct: boolean
   message: string
-}
-
-export async function fetchConfig(): Promise<GameConfig> {
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'config' }),
-  })
-  if (!res.ok) throw new Error('Failed to fetch config')
-  return res.json() as Promise<GameConfig>
 }
 
 export async function fetchLevels(): Promise<string[]> {

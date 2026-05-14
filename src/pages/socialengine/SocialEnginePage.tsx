@@ -1,22 +1,10 @@
-import { useState, useEffect } from 'react'
-import { fetchConfig, type LevelInfo, type GameConfig } from './api'
+import { useState } from 'react'
+import { type LevelInfo } from './api'
 import { LevelSelect } from './components/LevelSelect'
 import { GameScreen } from './components/GameScreen'
 
-const DEFAULT_CONFIG: GameConfig = {
-  max_message_length: 500,
-  max_conversation_turns: 3,
-}
-
 export function SocialEnginePage() {
   const [selectedLevel, setSelectedLevel] = useState<LevelInfo | null>(null)
-  const [config, setConfig] = useState<GameConfig>(DEFAULT_CONFIG)
-
-  useEffect(() => {
-    fetchConfig()
-      .then(setConfig)
-      .catch(() => {})
-  }, [])
 
   return (
     <main className={`max-w-6xl mx-auto px-6 py-8 ${selectedLevel ? 'lg:h-[calc(100vh-80px)] lg:overflow-hidden flex flex-col' : ''}`}>
@@ -32,7 +20,6 @@ export function SocialEnginePage() {
       {selectedLevel ? (
         <GameScreen
           level={selectedLevel}
-          config={config}
           onBack={() => setSelectedLevel(null)}
         />
       ) : (

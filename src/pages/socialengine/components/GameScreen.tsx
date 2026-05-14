@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { sendChat, verifySecret, type LevelInfo, type Message, type ChatMetadata, type GameConfig } from '../api'
+import { sendChat, verifySecret, type LevelInfo, type Message, type ChatMetadata } from '../api'
 import { GameLayout } from '../../../components/layout/GameLayout'
 import { ChatMessage } from './ChatMessage'
 import { TrustMeter } from './TrustMeter'
@@ -10,11 +10,10 @@ import { SecretInput } from './SecretInput'
 
 interface GameScreenProps {
   level: LevelInfo
-  config: GameConfig
   onBack: () => void
 }
 
-export function GameScreen({ level, config, onBack }: GameScreenProps) {
+export function GameScreen({ level, onBack }: GameScreenProps) {
   const [conversation, setConversation] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -26,8 +25,11 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
+  const maxTurns = level.settings?.max_conversation_turns ?? 1
+  const maxMessageLength = level.settings?.max_message_length ?? 500
+
   const userMessageCount = conversation.filter((m) => m.role === 'user').length
-  const turnsRemaining = config.max_conversation_turns - userMessageCount
+  const turnsRemaining = maxTurns - userMessageCount
   const canSendMessage = turnsRemaining > 0
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -107,7 +109,7 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
         <div className="flex items-center gap-2 shrink-0">
           <span className="text-xs text-text-secondary uppercase tracking-wide">Turns</span>
           <span className={`text-sm font-mono ${turnsRemaining === 0 ? 'text-red-400' : 'text-text-secondary'}`}>
-            {turnsRemaining}/{config.max_conversation_turns}
+            {turnsRemaining}/{maxTurns}
           </span>
         </div>
       </div>
@@ -151,15 +153,15 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
             <textarea
               ref={textareaRef}
               value={input}
-              onChange={(e) => setInput(e.target.value.slice(0, config.max_message_length))}
+              onChange={(e) => setInput(e.target.value.slice(0, maxMessageLength))}
               placeholder="Type your message..."
               disabled={loading}
               rows={4}
               className="w-full px-4 py-3 bg-surface-700 border border-border-default rounded-xl focus:outline-none focus:border-primary-500 transition-colors disabled:opacity-50 resize-none min-h-[44px] max-h-[200px]"
             />
             <div className="flex items-center justify-between mt-2">
-              <span className={`text-xs ${input.length >= config.max_message_length ? 'text-red-400' : 'text-text-muted'}`}>
-                {input.length}/{config.max_message_length}
+              <span className={`text-xs ${input.length >= maxMessageLength ? 'text-red-400' : 'text-text-muted'}`}>
+                {input.length}/{maxMessageLength}
               </span>
               <button
                 type="submit"
