@@ -96,18 +96,20 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
   )
 
   const statusBar = (
-    <div className="flex flex-col sm:flex-row gap-4 p-4 bg-surface-800/50 rounded-xl border border-border-default max-w-4xl mx-auto w-full">
-      <div className="flex-1">
+    <div className="flex flex-col md:flex-row items-center gap-4 p-4 bg-surface-800/50 rounded-xl border border-border-default max-w-4xl mx-auto w-full">
+      <div className="w-full md:flex-1">
         <TrustMeter level={metadata?.trust_level ?? 0} />
       </div>
-      <div className="flex-1">
-        <RoleBadge role={metadata?.detected_role ?? ''} />
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="text-xs text-text-secondary uppercase tracking-wide">Turns</span>
-        <span className={`text-sm font-mono ${turnsRemaining === 0 ? 'text-red-400' : 'text-text-secondary'}`}>
-          {turnsRemaining}/{config.max_conversation_turns}
-        </span>
+      <div className="flex items-center gap-4 w-full md:w-auto">
+        <div className="flex-1 md:flex-initial">
+          <RoleBadge role={metadata?.detected_role ?? ''} />
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="text-xs text-text-secondary uppercase tracking-wide">Turns</span>
+          <span className={`text-sm font-mono ${turnsRemaining === 0 ? 'text-red-400' : 'text-text-secondary'}`}>
+            {turnsRemaining}/{config.max_conversation_turns}
+          </span>
+        </div>
       </div>
     </div>
   )
