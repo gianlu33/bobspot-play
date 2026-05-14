@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { sendChat, verifySecret, type LevelInfo, type Message, type ChatMetadata, type GameConfig } from '../api'
 import { GameLayout } from '../../../components/layout/GameLayout'
 import { ChatMessage } from './ChatMessage'
