@@ -115,7 +115,7 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
   )
 
   const chatArea = (
-    <div className="flex flex-col bg-surface-800/30 rounded-xl border border-border-default overflow-hidden min-h-[300px] lg:min-h-[400px] max-h-[800px] lg:h-[700px] max-w-4xl mx-auto w-full">
+    <div className="flex flex-col bg-surface-800/30 rounded-xl border border-border-default overflow-hidden min-h-0 lg:h-full max-w-4xl mx-auto w-full">
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {conversation.length === 0 && (

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { fetchConfig, type LevelInfo, type GameConfig } from './api'
 import { LevelSelect } from './components/LevelSelect'
 import { GameScreen } from './components/GameScreen'
@@ -20,18 +19,7 @@ export function SocialEnginePage() {
   }, [])
 
   return (
-    <main className="max-w-6xl mx-auto px-6 py-8">
-      {/* Breadcrumb */}
-      <nav className="mb-6">
-        <Link
-          to="/"
-          className="text-text-secondary hover:text-text-primary transition-colors text-sm"
-        >
-          ← Back to Games
-        </Link>
-      </nav>
-
-      {/* Title */}
+    <main className={`max-w-6xl mx-auto px-6 py-8 ${selectedLevel ? 'lg:h-[calc(100vh-80px)] lg:overflow-hidden flex flex-col' : ''}`}>
       {!selectedLevel && (
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">SocialEngine AI</h1>
@@ -40,7 +28,6 @@ export function SocialEnginePage() {
           </p>
         </div>
       )}
-
       {/* Content */}
       {selectedLevel ? (
         <GameScreen

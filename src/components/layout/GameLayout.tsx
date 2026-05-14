@@ -16,7 +16,7 @@ export function GameLayout({
   return (
     <>
       {/* Desktop layout: fixed viewport height with grid */}
-      <div className="hidden lg:grid lg:grid-rows-[auto_auto_1fr] lg:min-h-0 lg:py-8 gap-4">
+      <div className="hidden lg:grid lg:grid-rows-[auto_auto_1fr] lg:h-[calc(100vh-12rem)] lg:min-h-[600px] lg:max-h-[900px] gap-4">
         {header}
         {statusBar}
         <div className={`grid ${sidebar ? 'grid-cols-[1fr_18rem]' : 'grid-cols-1'} gap-8 min-h-0`}>
