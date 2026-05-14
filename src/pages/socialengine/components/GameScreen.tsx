@@ -30,14 +30,6 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
   const turnsRemaining = config.max_conversation_turns - userMessageCount
   const canSendMessage = turnsRemaining > 0
 
-  useEffect(() => {
-    const textarea = textareaRef.current
-    if (textarea) {
-      textarea.style.height = 'auto'
-      textarea.style.height = `${Math.min(textarea.scrollHeight, 150)}px`
-    }
-  }, [input])
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!input.trim() || loading || !canSendMessage) return
@@ -90,7 +82,7 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
   }
 
   const headerContent = (
-    <div className="flex items-center gap-4 mb-4 max-w-4xl mx-auto w-full">
+    <div className="flex items-center gap-4 max-w-4xl mx-auto w-full">
       <button
         onClick={onBack}
         className="p-2 hover:bg-surface-700 rounded-lg transition-colors"
@@ -104,7 +96,7 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
   )
 
   const statusBar = (
-    <div className="flex flex-col sm:flex-row gap-4 mb-4 p-4 bg-surface-800/50 rounded-xl border border-border-default max-w-4xl mx-auto w-full">
+    <div className="flex flex-col sm:flex-row gap-4 p-4 bg-surface-800/50 rounded-xl border border-border-default max-w-4xl mx-auto w-full">
       <div className="flex-1">
         <TrustMeter level={metadata?.trust_level ?? 0} />
       </div>
@@ -121,7 +113,7 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
   )
 
   const chatArea = (
-    <div className="flex flex-col bg-surface-800/30 rounded-xl border border-border-default overflow-hidden min-h-[400px] max-h-[800px] lg:h-[700px] max-w-4xl mx-auto w-full">
+    <div className="flex flex-col bg-surface-800/30 rounded-xl border border-border-default overflow-hidden min-h-[300px] lg:min-h-[400px] max-h-[800px] lg:h-[700px] max-w-4xl mx-auto w-full">
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {conversation.length === 0 && (
@@ -160,7 +152,7 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
               onChange={(e) => setInput(e.target.value.slice(0, config.max_message_length))}
               placeholder="Type your message..."
               disabled={loading}
-              rows={1}
+              rows={4}
               className="w-full px-4 py-3 bg-surface-700 border border-border-default rounded-xl focus:outline-none focus:border-primary-500 transition-colors disabled:opacity-50 resize-none min-h-[44px] max-h-[200px]"
             />
             <div className="flex items-center justify-between mt-2">

@@ -5,7 +5,6 @@ interface GameLayoutProps {
   statusBar?: ReactNode
   mainContent: ReactNode
   sidebar?: ReactNode
-  mobileMainHeight?: string
 }
 
 export function GameLayout({
@@ -13,12 +12,11 @@ export function GameLayout({
   statusBar,
   mainContent,
   sidebar,
-  mobileMainHeight = '500px',
 }: GameLayoutProps) {
   return (
     <>
       {/* Desktop layout: fixed viewport height with grid */}
-      <div className="hidden lg:grid lg:grid-rows-[auto_auto_1fr] lg:min-h-0 lg:py-8">
+      <div className="hidden lg:grid lg:grid-rows-[auto_auto_1fr] lg:min-h-0 lg:py-8 gap-4">
         {header}
         {statusBar}
         <div className={`grid ${sidebar ? 'grid-cols-[1fr_18rem]' : 'grid-cols-1'} gap-8 min-h-0`}>
@@ -34,14 +32,14 @@ export function GameLayout({
       </div>
 
       {/* Mobile layout: natural flow, scrolls with page */}
-      <div className="lg:hidden">
+      <div className="lg:hidden flex flex-col gap-4">
         {header}
         {statusBar}
-        <div style={{ height: mobileMainHeight }}>
+        <div>
           {mainContent}
         </div>
         {sidebar && (
-          <div className="mt-4">
+          <div>
             {sidebar}
           </div>
         )}
