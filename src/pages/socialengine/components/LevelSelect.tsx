@@ -23,7 +23,7 @@ export function LevelSelect({ onSelectLevel }: LevelSelectProps) {
         setLoading(false)
       }
     }
-    loadLevels()
+    void loadLevels()
   }, [])
 
   if (loading) {

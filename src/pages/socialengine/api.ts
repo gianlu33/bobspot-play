@@ -42,7 +42,7 @@ export async function fetchConfig(): Promise<GameConfig> {
     body: JSON.stringify({ action: 'config' }),
   })
   if (!res.ok) throw new Error('Failed to fetch config')
-  return res.json()
+  return res.json() as Promise<GameConfig>
 }
 
 export async function fetchLevels(): Promise<string[]> {
@@ -52,7 +52,7 @@ export async function fetchLevels(): Promise<string[]> {
     body: JSON.stringify({ action: 'levels' }),
   })
   if (!res.ok) throw new Error('Failed to fetch levels')
-  const data = await res.json()
+  const data = (await res.json()) as { levels: string[] }
   return data.levels
 }
 
@@ -63,7 +63,7 @@ export async function fetchLevelInfo(levelId: string): Promise<LevelInfo> {
     body: JSON.stringify({ action: 'level_info', level_id: levelId }),
   })
   if (!res.ok) throw new Error('Failed to fetch level info')
-  return res.json()
+  return res.json() as Promise<LevelInfo>
 }
 
 export async function sendChat(
@@ -82,7 +82,7 @@ export async function sendChat(
     }),
   })
   if (!res.ok) throw new Error('Failed to send message')
-  return res.json()
+  return res.json() as Promise<ChatResponse>
 }
 
 export async function verifySecret(
@@ -99,5 +99,5 @@ export async function verifySecret(
     }),
   })
   if (!res.ok) throw new Error('Failed to verify secret')
-  return res.json()
+  return res.json() as Promise<VerifySecretResponse>
 }

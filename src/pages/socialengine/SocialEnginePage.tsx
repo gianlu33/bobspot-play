@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import type { LevelInfo, GameConfig } from './api'
-import { fetchConfig } from './api'
+import { fetchConfig, type LevelInfo, type GameConfig } from './api'
 import { LevelSelect } from './components/LevelSelect'
 import { GameScreen } from './components/GameScreen'
 
