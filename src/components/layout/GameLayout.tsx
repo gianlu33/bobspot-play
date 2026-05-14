@@ -18,13 +18,15 @@ export function GameLayout({
   return (
     <>
       {/* Desktop layout: fixed viewport height with grid */}
-      <div className="hidden lg:grid lg:grid-rows-[auto_auto_1fr] lg:h-[calc(100vh-8rem)]">
+      <div className="hidden lg:grid lg:grid-rows-[auto_auto_1fr] lg:min-h-0 lg:py-8">
         {header}
         {statusBar}
-        <div className={`grid ${sidebar ? 'grid-cols-[1fr_18rem]' : 'grid-cols-1'} gap-4 min-h-0`}>
-          {mainContent}
+        <div className={`grid ${sidebar ? 'grid-cols-[1fr_18rem]' : 'grid-cols-1'} gap-8 min-h-0`}>
+          <div className="flex flex-col min-h-0 overflow-hidden">
+            {mainContent}
+          </div>
           {sidebar && (
-            <div className="overflow-y-auto">
+            <div className="overflow-y-auto pt-4 lg:pt-0">
               {sidebar}
             </div>
           )}

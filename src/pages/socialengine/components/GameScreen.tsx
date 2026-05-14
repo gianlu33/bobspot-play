@@ -90,7 +90,7 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
   }
 
   const headerContent = (
-    <div className="flex items-center gap-4 mb-4">
+    <div className="flex items-center gap-4 mb-4 max-w-4xl mx-auto w-full">
       <button
         onClick={onBack}
         className="p-2 hover:bg-surface-700 rounded-lg transition-colors"
@@ -104,7 +104,7 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
   )
 
   const statusBar = (
-    <div className="flex flex-col sm:flex-row gap-4 mb-4 p-4 bg-surface-800/50 rounded-xl border border-border-default">
+    <div className="flex flex-col sm:flex-row gap-4 mb-4 p-4 bg-surface-800/50 rounded-xl border border-border-default max-w-4xl mx-auto w-full">
       <div className="flex-1">
         <TrustMeter level={metadata?.trust_level ?? 0} />
       </div>
@@ -121,7 +121,7 @@ export function GameScreen({ level, config, onBack }: GameScreenProps) {
   )
 
   const chatArea = (
-    <div className="flex flex-col bg-surface-800/30 rounded-xl border border-border-default overflow-hidden h-full">
+    <div className="flex flex-col bg-surface-800/30 rounded-xl border border-border-default overflow-hidden min-h-[400px] max-h-[800px] lg:h-[700px] max-w-4xl mx-auto w-full">
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {conversation.length === 0 && (
