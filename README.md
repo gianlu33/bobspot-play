@@ -16,7 +16,7 @@ src/
 ├── App.tsx                 # Router setup (createBrowserRouter)
 ├── main.tsx                # Entry point
 ├── components/             # Reusable components
-│   ├── layout/             # Layout components (Header, Footer, RootLayout)
+│   ├── layout/             # Layout components (Header, Footer, RootLayout, GameLayout)
 │   └── ui/                 # Generic UI components (buttons, inputs, etc.)
 ├── pages/                  # Page components
 │   └── [page-name]/        # Each page has its own folder
@@ -31,6 +31,37 @@ src/
 
 - **Generic/reusable components** → `src/components/` (with subfolders like `ui/`, `layout/`)
 - **Page-specific components** → `src/pages/[page-name]/components/`
+
+## Layout Components
+
+### GameLayout
+
+A responsive layout for game pages with main content and optional sidebar.
+
+- **Desktop (lg+)**: Fixed viewport height with CSS Grid. Main content and sidebar side by side, both independently scrollable.
+- **Mobile**: Natural flow layout. Main content has fixed height, sidebar stacks below and scrolls with page.
+
+**Props:**
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `header` | `ReactNode` | Yes | Header content (back button, title, etc.) |
+| `statusBar` | `ReactNode` | No | Status bar below header |
+| `mainContent` | `ReactNode` | Yes | Main content area (e.g., chat) |
+| `sidebar` | `ReactNode` | No | Sidebar content (hidden if not provided) |
+| `mobileMainHeight` | `string` | No | Height of main content on mobile (default: `500px`) |
+
+**Usage:**
+```tsx
+import { GameLayout } from '@/components/layout/GameLayout'
+
+<GameLayout
+  header={<h1>Game Title</h1>}
+  statusBar={<StatusBar />}
+  mainContent={<ChatArea />}
+  sidebar={<Sidebar />}
+  mobileMainHeight="600px"
+/>
+```
 
 ## Theming
 
