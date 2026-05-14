@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { Info } from 'lucide-react'
 import { fetchLevels, fetchLevelInfo, type LevelInfo } from '../api'
 import { LevelCard } from './LevelCard'
+import { InfoModal } from './InfoModal'
 
 interface LevelSelectProps {
   onSelectLevel: (level: LevelInfo) => void
@@ -10,6 +12,7 @@ export function LevelSelect({ onSelectLevel }: LevelSelectProps) {
   const [levels, setLevels] = useState<LevelInfo[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isInfoOpen, setIsInfoOpen] = useState(false)
 
   useEffect(() => {
     async function loadLevels() {
@@ -50,7 +53,16 @@ export function LevelSelect({ onSelectLevel }: LevelSelectProps) {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6">Select a Level</h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold">Select a Level</h2>
+        <button
+          onClick={() => setIsInfoOpen(true)}
+          className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-surface-700 hover:bg-surface-600 border border-border-default rounded-lg transition-colors text-text-secondary hover:text-text-primary"
+        >
+          <Info className="w-4 h-4" />
+          How to Play
+        </button>
+      </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {levels.map((level) => (
           <LevelCard
@@ -60,6 +72,11 @@ export function LevelSelect({ onSelectLevel }: LevelSelectProps) {
           />
         ))}
       </div>
+
+      <InfoModal 
+        isOpen={isInfoOpen} 
+        onClose={() => setIsInfoOpen(false)} 
+      />
     </div>
   )
 }

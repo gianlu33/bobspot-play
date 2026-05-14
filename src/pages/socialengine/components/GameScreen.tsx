@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { Info, ChevronLeft } from 'lucide-react'
 import { sendChat, verifySecret, type LevelInfo, type Message, type ChatMetadata } from '../api'
 import { GameLayout } from '../../../components/layout/GameLayout'
 import { ChatMessage } from './ChatMessage'
@@ -7,6 +8,7 @@ import { RoleBadge } from './RoleBadge'
 import { HintsPanel } from './HintsPanel'
 import { VictoryModal } from './VictoryModal'
 import { SecretInput } from './SecretInput'
+import { InfoModal } from './InfoModal'
 
 interface GameScreenProps {
   level: LevelInfo
@@ -22,6 +24,7 @@ export function GameScreen({ level, onBack }: GameScreenProps) {
   const [showVictory, setShowVictory] = useState(false)
   const [verifyLoading, setVerifyLoading] = useState(false)
   const [verifyError, setVerifyError] = useState<string | null>(null)
+  const [isInfoOpen, setIsInfoOpen] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -84,16 +87,23 @@ export function GameScreen({ level, onBack }: GameScreenProps) {
   }
 
   const headerContent = (
-    <div className="flex items-center gap-4 max-w-4xl mx-auto w-full">
+    <div className="flex items-center justify-between max-w-4xl mx-auto w-full">
+      <div className="flex items-center gap-4">
+        <button
+          onClick={onBack}
+          className="p-2 hover:bg-surface-700 rounded-lg transition-colors"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <h2 className="text-xl font-bold">{level.title}</h2>
+      </div>
       <button
-        onClick={onBack}
-        className="p-2 hover:bg-surface-700 rounded-lg transition-colors"
+        onClick={() => setIsInfoOpen(true)}
+        className="p-2 hover:bg-surface-700 rounded-lg transition-colors text-text-muted hover:text-text-primary"
+        title="How to Play"
       >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
+        <Info className="w-6 h-6" />
       </button>
-      <h2 className="text-xl font-bold">{level.title}</h2>
     </div>
   )
 
@@ -218,6 +228,12 @@ export function GameScreen({ level, onBack }: GameScreenProps) {
           onSelectLevel={onBack}
         />
       )}
+
+      {/* Info modal */}
+      <InfoModal 
+        isOpen={isInfoOpen} 
+        onClose={() => setIsInfoOpen(false)} 
+      />
     </>
   )
 }
